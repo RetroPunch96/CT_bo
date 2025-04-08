@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  bot:
+    build: .
+    image: trading-bot
+    container_name: trading-bot
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "8000:8000"  # Для метрик
+
+  monitoring:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage:
